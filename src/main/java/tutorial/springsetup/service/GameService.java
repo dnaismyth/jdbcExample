@@ -2,6 +2,8 @@ package tutorial.springsetup.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,15 @@ import tutorial.springsetup.entity.Game;
 import tutorial.springsetup.repository.GameRepository;
 
 @Service
+@Transactional
 public class GameService {
 
 	@Autowired
 	private GameRepository gameRepo;	// Autowire in our GameRepository to allow access to all public methods
+	
+	public Game findGameById(Long id){
+		return gameRepo.findOne(id);
+	}
 	
 	public List<Game> searchGamesByTitle(String title){
 		String formattedTitle = "%" + title + "%";	// wrap '%' around the input title parameter so that we can find values with value of title in any position

@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import tutorial.springsetup.App;
 import tutorial.springsetup.entity.Game;
+import tutorial.springsetup.repository.GameJDBCRepository;
 import tutorial.springsetup.repository.GameRepository;
 import tutorial.springsetup.service.GameService;
 
@@ -24,6 +25,9 @@ public class GameServiceTests {
 	
 	@Autowired
 	private GameService gameService;
+	
+	@Autowired
+	private GameJDBCRepository gameJDBCRepo;
 
 	@Test
 	public void testFindGameByTitle(){
@@ -44,5 +48,11 @@ public class GameServiceTests {
 		game.setDescription("Action-adventure video game developed and published by Nintendo.");
 		Game created = gameService.insertGame(game);
 		Assert.assertNotNull(created.getId());
+	}
+	
+	@Test
+	public void searchForGamesByDescription(){
+		List<Game> results = gameJDBCRepo.searchForGamesByDescription("platform");
+		Assert.assertTrue(results.size() > 0);
 	}
 }
